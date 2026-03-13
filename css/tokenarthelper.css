@@ -522,11 +522,3 @@ div.magic-lasso-wrapper {
   position: relative;
 }
 
-/* Toolbar button */
-li.tokenarthelper-toolbar-btn {
-  cursor: pointer;
-}
-
-li.tokenarthelper-toolbar-btn:hover i {
-  color: var(--color-warm-3, #ff6400);
-}

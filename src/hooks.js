@@ -47,23 +47,15 @@ export function ready() {
   exposeAPI();
 }
 
-// Inject a button into the left side scene controls toolbar in Foundry v13
-Hooks.on("renderSceneControls", (_controls, html) => {
-  const root = html instanceof HTMLElement ? html : html[0];
-  if (!root) return;
-
-  // Avoid adding duplicate buttons
-  if (root.querySelector(".tokenarthelper-toolbar-btn")) return;
-
-  const mainControls = root.querySelector(".main-controls");
-  if (!mainControls) return;
-
-  const li = document.createElement("li");
-  li.classList.add("scene-control", "tokenarthelper-toolbar-btn");
-  li.dataset.tooltip = game.i18n.localize("tokenarthelper.toolbar.button");
-  li.setAttribute("aria-label", game.i18n.localize("tokenarthelper.toolbar.button"));
-  li.innerHTML = `<i class="fas fa-palette"></i>`;
-  li.addEventListener("click", () => launchArtEditor());
-
-  mainControls.appendChild(li);
+// Add a button to the left scene controls toolbar
+Hooks.on("getSceneControlButtons", (controls) => {
+  controls.tiles.tools[CONSTANTS.MODULE_ID] = {
+    name: CONSTANTS.MODULE_ID,
+    title: "tokenarthelper.toolbar.button",
+    icon: "fa-solid fa-palette",
+    order: Object.keys(controls.tokens.tools).length,
+    button: true,
+    visible: game.user.can("FILES_UPLOAD"),
+    onChange: () => launchArtEditor(),
+  };
 });
