@@ -1,0 +1,145 @@
+{
+  "tokenarthelper": {
+    "module-name": "Token Art Helper",
+    "requires-upload-permission": "Token Art Helper requires file upload permission.",
+
+    "toolbar": {
+      "button": "Token Art Helper"
+    },
+
+    "settings": {
+      "image-upload-directory": {
+        "name": "Image Upload Directory",
+        "hint": "The directory where token and portrait images will be saved. Supports [data], [s3:bucket], and ForgeVTT paths."
+      },
+      "token-size": {
+        "name": "Token Image Size",
+        "hint": "The size (width and height in pixels) of the generated token image."
+      },
+      "portrait-size": {
+        "name": "Portrait Image Size",
+        "hint": "The size (width and height in pixels) of the generated portrait image."
+      },
+      "image-save-type": {
+        "name": "Image Save Type",
+        "hint": "The file format used when saving images."
+      },
+      "default-color": {
+        "name": "Default Color Layer Color",
+        "hint": "The default color used when adding a color layer."
+      },
+      "default-crop-image": {
+        "name": "Crop Image by Default",
+        "hint": "If enabled, images will be cropped to fit the canvas rather than letterboxed."
+      },
+      "default-algorithm": {
+        "name": "Use Ray Mask Algorithm",
+        "hint": "If enabled, uses the Ray Mask algorithm for mask generation. If disabled, uses Marching Squares."
+      },
+      "log-level": {
+        "name": "Log Level",
+        "hint": "Controls the verbosity of console logging."
+      }
+    },
+
+    "label": {
+      "portrait": "Portrait",
+      "token": "Token",
+      "NewImage": "New Image",
+      "AddLayer": "Add Layer",
+      "UsePortraitImage": "Use Portrait Image",
+      "UseTokenImage": "Use Token Image",
+      "UseAURL": "Load from URL",
+      "UploadComputer": "Upload from Computer",
+      "UseFoundry": "Browse Foundry Files",
+      "UseAColorLayer": "Add Color Layer",
+      "PasteTarget": "Paste Target",
+      "Modify": "Modify",
+      "Presets": "Presets",
+      "QuickToken": "Quick Token",
+      "SaveFolder": "Save Folder",
+      "PortraitFilename": "Portrait Filename",
+      "TokenFilename": "Token Filename",
+      "Download": "Download",
+      "SaveClose": "Save and Close",
+      "Apply": "Apply",
+      "Cancel": "Cancel",
+      "OK": "OK",
+      "Reset": "Reset",
+      "Frame": "Frame",
+      "Mask": "Mask",
+      "AddFrame": "Add Frame",
+      "AddMask": "Add Mask",
+      "Fill": "Fill",
+      "Transparent": "Transparent",
+      "FillColor": "Fill Color",
+      "Wildcard": "Wildcard",
+      "open": "Open Token Art Helper",
+
+      "MaskLayer": "Mask Layer",
+      "Masking": "Masking",
+      "Algorithm": "Algorithm",
+      "Position": "Position",
+      "Transform": "Transform",
+      "Color": "Color",
+      "Adjustments": "Adjustments",
+      "Opacity": "Opacity",
+      "Brightness": "Brightness",
+      "Contrast": "Contrast",
+      "LineArt": "Line Art",
+      "BlurSize": "Blur Size",
+      "AlphaPick": "Pick Alpha Color",
+      "AlphaReset": "Reset Alpha",
+      "ColorPick": "Pick Color",
+      "MoveUp": "Move Up",
+      "MoveDown": "Move Down",
+      "Duplicate": "Duplicate",
+      "Delete": "Delete",
+      "Centre": "Centre",
+      "Scale": "Scale",
+      "Flip": "Flip",
+      "Rotate": "Rotate",
+      "BlendMode": "Blend Mode",
+      "EditMask": "Edit Mask",
+      "MagicLasso": "Magic Lasso",
+      "ActiveLayer": "Active Layer",
+      "Visible": "Visible",
+      "Tint": "Tint",
+      "MaskBlendMode": "Mask Blend Mode"
+    },
+
+    "notification": {
+      "savedPortrait": "Portrait saved to {path}",
+      "savedToken": "Token saved to {path}",
+      "failedInput": "Failed to load image from {url}.",
+      "failedFallback": "Failed to load fallback image.",
+      "failedLoad": "Failed to load image from {imgSrc}. Falling back to {default}."
+    },
+
+    "dialog": {
+      "downloadTitle": "Download from the Internet"
+    },
+
+    "download": {
+      "url": "Enter the URL of the image you wish to load"
+    },
+
+    "CustomMaskEditor": {
+      "title": "Custom Mask Editor",
+      "add": "Left-click and drag to paint the mask (reveal area).",
+      "remove": "Shift+click or right-click to erase the mask (hide area).",
+      "brush": "Use the scroll wheel to change the brush size.",
+      "save": "Save the mask and close.",
+      "close": "Discard changes and close."
+    },
+
+    "MagicLasso": {
+      "title": "Magic Lasso",
+      "description": "Click on the image to select a region by color. Ctrl+click to add to the selection. Drag to adjust threshold.",
+      "transparent": "Make the selected area transparent.",
+      "fill": "Fill the selected area with the chosen color.",
+      "save": "Apply changes and close.",
+      "close": "Discard changes and close."
+    }
+  }
+}

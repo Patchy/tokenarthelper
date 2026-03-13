@@ -1,0 +1,83 @@
+<div id="arteditor" style="overflow-y: scroll">
+
+    <div>
+        <div class="portrait">
+            <div class="title">
+                <div class="title-element"><h1>{{localize "tokenarthelper.label.portrait"}}</h1></div>
+                <div class="title-element">
+                    <button id="paste-portrait" type="button" class="box-button deselected" data-target="portrait" data-type="paste-toggle">{{localize "tokenarthelper.label.PasteTarget"}}&nbsp;&nbsp;<i id="paste-portrait-fas" class="fa-regular fa-circle button-fas"></i></button>
+                </div>
+            </div>
+            <div class="view" id="arteditor-portrait"></div>
+            <div class="menu" id="portrait-options">
+                <div class="section">
+                    <div class="title"><i class="fa-solid fa-plus"></i></div>
+                    <div class="content">
+                        <button type="button" title="{{localize "tokenarthelper.label.UseTokenImage"}}" class="menu-button" data-action="menuButton" data-type="token" data-target="portrait"><i class="fas fa-user-circle"></i></button>
+                        <button type="button" title="{{localize "tokenarthelper.label.UseAURL"}}" class="menu-button" data-action="menuButton" data-type="download" data-target="portrait"><i class="fas fa-globe"></i></button>
+                        <button type="button" title="{{localize "tokenarthelper.label.UploadComputer"}}" class="menu-button" data-action="menuButton" data-type="upload" data-target="portrait"><i class="fas fa-upload"></i></button>
+                        {{#if canBrowse}}
+                        <input type="text" class="filePickerTarget" name="foundryPortrait" data-target="portrait" data-type="server" data-dtype="String" />
+                        <button type="button" title="{{localize "tokenarthelper.label.UseFoundry"}}" class="menu-button file-picker" data-type="imagevideo" data-action="chooseImage" data-target="portrait">
+                            <i class="fas fa-server"></i>
+                        </button>
+                        {{/if}}
+                        <button type="button" title="{{localize "tokenarthelper.label.UseAColorLayer"}}" class="menu-button" data-action="menuButton" data-type="color" data-target="portrait"><i class="fas fa-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="token" id="arteditor-token-parent">
+            <div class="title">
+                <div class="title-element"><h1 id="arteditor-token-header">{{localize "tokenarthelper.label.token"}}</h1></div>
+                <div class="title-element">
+                    <button id="paste-token" type="button" class="box-button" data-target="token" data-type="paste-toggle">{{localize "tokenarthelper.label.PasteTarget"}}&nbsp;&nbsp;<i id="paste-token-fas" class="fa-regular fa-circle-dot button-fas"></i></button>
+                </div>
+            </div>
+            <div class="view" id="arteditor-token"></div>
+            <div class="menu" id="token-options">
+                <div class="section">
+                    <div class="title"><i class="fa-solid fa-plus"></i></div>
+                    <div class="content">
+                        <button type="button" title="{{localize "tokenarthelper.label.UsePortraitImage"}}" class="menu-button" data-action="menuButton" data-type="portrait" data-target="token"><i class="fas fa-image-portrait"></i></button>
+                        <button type="button" title="{{localize "tokenarthelper.label.UseAURL"}}" class="menu-button" data-action="menuButton" data-type="download" data-target="token"><i class="fas fa-globe"></i></button>
+                        <button type="button" title="{{localize "tokenarthelper.label.UploadComputer"}}" class="menu-button" data-action="menuButton" data-type="upload" data-target="token"><i class="fas fa-upload"></i></button>
+                        {{#if canBrowse}}
+                        <input type="text" class="filePickerTarget" name="foundryToken" data-target="token" data-type="server" />
+                        <button type="button" title="{{localize "tokenarthelper.label.UseFoundry"}}" class="menu-button file-picker" data-action="chooseImage" data-target="foundryToken">
+                            <i class="fas fa-server"></i>
+                        </button>
+                        {{/if}}
+                        <button type="button" title="{{localize "tokenarthelper.label.UseAColorLayer"}}" class="menu-button" data-action="menuButton" data-type="color" data-target="token"><i class="fas fa-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-start">
+            <div class="footer-filenames">
+                <div class="footer-row">
+                    <span class="footer-label">{{localize "tokenarthelper.label.SaveFolder"}}:</span>
+                    <input type="text" name="uploadDirectory" value="{{uploadDirectory}}" class="footer-input" data-dtype="String" />
+                </div>
+                <div class="footer-row">
+                    <span class="footer-label">{{localize "tokenarthelper.label.PortraitFilename"}}:</span>
+                    <input type="text" name="portraitFileName" value="{{portraitFileName}}" class="footer-input" data-dtype="String" />
+                    <button type="button" title="{{localize "tokenarthelper.label.Download"}}" class="menu-button" data-action="menuButton" data-type="download-portrait" data-target="portrait"><i class="fas fa-download"></i></button>
+                </div>
+                <div class="footer-row">
+                    <span class="footer-label">{{localize "tokenarthelper.label.TokenFilename"}}:</span>
+                    <input type="text" name="tokenFileName" value="{{tokenFileName}}" class="footer-input" data-dtype="String" />
+                    <button type="button" title="{{localize "tokenarthelper.label.Download"}}" class="menu-button" data-action="menuButton" data-type="download-token" data-target="token"><i class="fas fa-download"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-end">
+            <button class="ok-button" title="{{localize "tokenarthelper.label.SaveClose"}}" type="submit" id="ok" {{#unless canUpload}}disabled{{/unless}}>{{localize "tokenarthelper.label.Apply"}}&nbsp;&nbsp;<i class="fas fa-stamp button-fas"></i></button>
+        </div>
+    </div>
+
+</div>
