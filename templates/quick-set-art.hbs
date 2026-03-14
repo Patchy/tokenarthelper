@@ -1,0 +1,113 @@
+<div id="quicksetart">
+
+  {{!-- Actor drop zone --}}
+  <div class="qsa-actor-row">
+    <div class="actor-drop-zone {{#unless actor}}empty{{/unless}}">
+      {{#if actor}}
+        <img src="{{actor.img}}" class="actor-thumb" />
+        <div class="actor-info">
+          <span class="actor-name">{{actor.name}}</span>
+          <span class="actor-hint">{{localize "tokenarthelper.quicksetart.dropToReplace"}}</span>
+        </div>
+      {{else}}
+        <i class="fas fa-user-plus fa-2x"></i>
+        <span>{{localize "tokenarthelper.quicksetart.dropActor"}}</span>
+      {{/if}}
+    </div>
+  </div>
+
+  {{!-- Selection slots --}}
+  <div class="qsa-slots">
+    <div class="qsa-slot {{#if portraitActive}}active{{/if}}" data-action="setTarget" data-target="portrait">
+      <div class="slot-header">
+        <span class="slot-label">{{localize "tokenarthelper.label.portrait"}}</span>
+        {{#if portraitActive}}<span class="slot-active-badge">{{localize "tokenarthelper.quicksetart.active"}}</span>{{/if}}
+      </div>
+      {{#if selectedPortrait}}
+        <img src="{{selectedPortrait}}" class="slot-preview" />
+        <span class="slot-filename" title="{{selectedPortrait}}">{{selectedPortrait}}</span>
+        <button type="button" class="slot-clear" data-action="clearPortrait" title="{{localize "tokenarthelper.quicksetart.clear"}}"><i class="fas fa-times"></i></button>
+      {{else}}
+        <div class="slot-empty"><i class="fas fa-image"></i><br>{{localize "tokenarthelper.quicksetart.noneSelected"}}</div>
+      {{/if}}
+    </div>
+
+    <div class="qsa-slot-actions">
+      <button type="button" class="menu-button" data-action="copyPortraitToToken" title="{{localize "tokenarthelper.quicksetart.copyPortraitToToken"}}">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+
+    <div class="qsa-slot {{#if tokenActive}}active{{/if}}" data-action="setTarget" data-target="token">
+      <div class="slot-header">
+        <span class="slot-label">{{localize "tokenarthelper.label.token"}}</span>
+        {{#if tokenActive}}<span class="slot-active-badge">{{localize "tokenarthelper.quicksetart.active"}}</span>{{/if}}
+      </div>
+      {{#if selectedToken}}
+        <img src="{{selectedToken}}" class="slot-preview" />
+        <span class="slot-filename" title="{{selectedToken}}">{{selectedToken}}</span>
+        <button type="button" class="slot-clear" data-action="clearToken" title="{{localize "tokenarthelper.quicksetart.clear"}}"><i class="fas fa-times"></i></button>
+      {{else}}
+        <div class="slot-empty"><i class="fas fa-user-circle"></i><br>{{localize "tokenarthelper.quicksetart.noneSelected"}}</div>
+      {{/if}}
+    </div>
+  </div>
+
+  {{!-- Image grid --}}
+  <div class="qsa-grid-header">
+    <span class="qsa-folder-label"><i class="fas fa-folder-open"></i> {{uploadDirectory}}</span>
+    <button type="button" class="menu-button" data-action="refreshImages" title="{{localize "tokenarthelper.quicksetart.refresh"}}"><i class="fas fa-sync"></i></button>
+  </div>
+  <div class="qsa-image-grid">
+    {{#each images}}
+      <div class="qsa-image-item {{#if isPortrait}}is-portrait{{/if}} {{#if isToken}}is-token{{/if}}"
+           data-action="selectImage" data-path="{{path}}" title="{{name}}">
+        <img src="{{path}}" />
+        <span class="qsa-image-name">{{name}}</span>
+        {{#if isPortrait}}<div class="qsa-badge portrait-badge">P</div>{{/if}}
+        {{#if isToken}}<div class="qsa-badge token-badge">T</div>{{/if}}
+      </div>
+    {{else}}
+      <div class="qsa-no-images">{{localize "tokenarthelper.quicksetart.noImages"}}</div>
+    {{/each}}
+  </div>
+
+  {{!-- Settings --}}
+  <div class="qsa-settings">
+    <div class="qsa-setting">
+      <label><input type="checkbox" name="linkActor" {{#if linkActor}}checked{{/if}} /> {{localize "tokenarthelper.quicksetart.linkActor"}}</label>
+    </div>
+    <div class="qsa-setting">
+      <label><input type="checkbox" name="setTokenName" {{#if setTokenName}}checked{{/if}} /> {{localize "tokenarthelper.quicksetart.setTokenName"}}</label>
+    </div>
+    <div class="qsa-setting">
+      <label><input type="checkbox" name="hidden" {{#if hidden}}checked{{/if}} /> {{localize "tokenarthelper.quicksetart.hidden"}}</label>
+    </div>
+    <div class="qsa-setting">
+      <label><input type="checkbox" name="visionEnabled" {{#if visionEnabled}}checked{{/if}} /> {{localize "tokenarthelper.quicksetart.visionEnabled"}}</label>
+    </div>
+    <div class="qsa-setting">
+      <label>{{localize "tokenarthelper.quicksetart.disposition"}}:&nbsp;
+        <select name="disposition">
+          <option value="-2" {{#if dispositionSecret}}selected{{/if}}>{{localize "tokenarthelper.quicksetart.dispositionSecret"}}</option>
+          <option value="-1" {{#if dispositionHostile}}selected{{/if}}>{{localize "tokenarthelper.quicksetart.dispositionHostile"}}</option>
+          <option value="0"  {{#if dispositionNeutral}}selected{{/if}}>{{localize "tokenarthelper.quicksetart.dispositionNeutral"}}</option>
+          <option value="1"  {{#if dispositionFriendly}}selected{{/if}}>{{localize "tokenarthelper.quicksetart.dispositionFriendly"}}</option>
+        </select>
+      </label>
+    </div>
+    <div class="qsa-setting">
+      <label>{{localize "tokenarthelper.quicksetart.scale"}}:&nbsp;
+        <input type="number" name="scale" value="{{scale}}" min="0.1" max="4" step="0.1" class="qsa-scale-input" />
+      </label>
+    </div>
+  </div>
+
+  {{!-- Footer --}}
+  <div class="qsa-footer">
+    <button type="submit" class="ok-button" {{#unless actor}}disabled{{/unless}}>
+      {{localize "tokenarthelper.quicksetart.apply"}}&nbsp;&nbsp;<i class="fas fa-check button-fas"></i>
+    </button>
+  </div>
+
+</div>

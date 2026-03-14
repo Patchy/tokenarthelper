@@ -134,6 +134,35 @@
       "close": "Discard changes and close."
     },
 
+    "quicksetart": {
+      "title": "Quick Set Art",
+      "toolbar": "Quick Set Art",
+      "contextMenu": "Quick Set Art",
+      "dropActor": "Drag an actor here",
+      "dropToReplace": "Drag a different actor to replace",
+      "active": "active",
+      "noneSelected": "None selected",
+      "clear": "Clear",
+      "copyPortraitToToken": "Copy portrait selection to token",
+      "refresh": "Refresh image list",
+      "noImages": "No images found in the upload folder.",
+      "apply": "Apply",
+      "noActor": "Please drag an actor into the drop zone before applying.",
+      "noImagesSelected": "Please select at least one image before applying.",
+      "saved": "Updated art for {name}.",
+      "saveFailed": "Failed to update actor {name}.",
+      "linkActor": "Link Actor (token represents the actor document)",
+      "setTokenName": "Set token name to actor name",
+      "hidden": "Start hidden",
+      "visionEnabled": "Enable vision",
+      "disposition": "Disposition",
+      "dispositionSecret": "Secret",
+      "dispositionHostile": "Hostile",
+      "dispositionNeutral": "Neutral",
+      "dispositionFriendly": "Friendly",
+      "scale": "Token Scale"
+    },
+
     "MagicLasso": {
       "title": "Magic Lasso",
       "description": "Click on the image to select a region by color. Ctrl+click to add to the selection. Drag to adjust threshold.",
