@@ -5,13 +5,13 @@
             <div class="title">
                 <div class="title-element"><h1>{{localize "tokenarthelper.label.portrait"}}</h1></div>
                 <div class="title-element">
-                    <button id="paste-portrait" type="button" class="box-button deselected" data-target="portrait" data-type="paste-toggle">{{localize "tokenarthelper.label.PasteTarget"}}&nbsp;&nbsp;<i id="paste-portrait-fas" class="fa-regular fa-circle button-fas"></i></button>
+                    <button id="paste-portrait" type="button" class="box-button deselected" data-action="boxButton" data-target="portrait" data-type="paste-toggle">{{localize "tokenarthelper.label.PasteTarget"}}&nbsp;&nbsp;<i id="paste-portrait-fas" class="fa-regular fa-circle button-fas"></i></button>
                 </div>
             </div>
             <div class="view" id="arteditor-portrait"></div>
             <div class="menu" id="portrait-options">
                 <div class="section">
-                    <div class="title"><i class="fa-solid fa-plus"></i></div>
+                    <div class="title"><button type="button" title="{{localize "tokenarthelper.label.AddLayer"}}" data-action="invisibleButton" class="invisible-button"><i class="fa-solid fa-plus"></i></button></div>
                     <div class="content">
                         <button type="button" title="{{localize "tokenarthelper.label.UseTokenImage"}}" class="menu-button" data-action="menuButton" data-type="token" data-target="portrait"><i class="fas fa-user-circle"></i></button>
                         <button type="button" title="{{localize "tokenarthelper.label.UseAURL"}}" class="menu-button" data-action="menuButton" data-type="download" data-target="portrait"><i class="fas fa-globe"></i></button>
@@ -32,20 +32,20 @@
             <div class="title">
                 <div class="title-element"><h1 id="arteditor-token-header">{{localize "tokenarthelper.label.token"}}</h1></div>
                 <div class="title-element">
-                    <button id="paste-token" type="button" class="box-button" data-target="token" data-type="paste-toggle">{{localize "tokenarthelper.label.PasteTarget"}}&nbsp;&nbsp;<i id="paste-token-fas" class="fa-regular fa-circle-dot button-fas"></i></button>
+                    <button id="paste-token" type="button" class="box-button" data-action="boxButton" data-target="token" data-type="paste-toggle">{{localize "tokenarthelper.label.PasteTarget"}}&nbsp;&nbsp;<i id="paste-token-fas" class="fa-regular fa-circle-dot button-fas"></i></button>
                 </div>
             </div>
             <div class="view" id="arteditor-token"></div>
             <div class="menu" id="token-options">
                 <div class="section">
-                    <div class="title"><i class="fa-solid fa-plus"></i></div>
+                    <div class="title"><button type="button" title="{{localize "tokenarthelper.label.AddLayer"}}" data-action="invisibleButton" class="invisible-button"><i class="fa-solid fa-plus"></i></button></div>
                     <div class="content">
                         <button type="button" title="{{localize "tokenarthelper.label.UsePortraitImage"}}" class="menu-button" data-action="menuButton" data-type="portrait" data-target="token"><i class="fas fa-image-portrait"></i></button>
                         <button type="button" title="{{localize "tokenarthelper.label.UseAURL"}}" class="menu-button" data-action="menuButton" data-type="download" data-target="token"><i class="fas fa-globe"></i></button>
                         <button type="button" title="{{localize "tokenarthelper.label.UploadComputer"}}" class="menu-button" data-action="menuButton" data-type="upload" data-target="token"><i class="fas fa-upload"></i></button>
                         {{#if canBrowse}}
                         <input type="text" class="filePickerTarget" name="foundryToken" data-target="token" data-type="server" />
-                        <button type="button" title="{{localize "tokenarthelper.label.UseFoundry"}}" class="menu-button file-picker" data-action="chooseImage" data-target="foundryToken">
+                        <button type="button" title="{{localize "tokenarthelper.label.UseFoundry"}}" class="menu-button file-picker" data-action="chooseImage" data-target="token">
                             <i class="fas fa-server"></i>
                         </button>
                         {{/if}}

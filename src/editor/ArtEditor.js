@@ -23,6 +23,7 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
       ? options.tokenFilename.split("/").pop()
       : `token.${this.imageFormat}`;
     this.activeLayerSelectorElement = null;
+    this.lastControlButtonClicked = null;
   }
 
   static PARTS = {
@@ -33,7 +34,7 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
 
   static DEFAULT_OPTIONS = {
     id: "arteditor-control",
-    classes: ["tokenarthelper", "themed", "theme-light"],
+    classes: ["tokenarthelper"],
     tag: "form",
     form: {
       handler: ArtEditor.formHandler,
@@ -42,11 +43,13 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
     },
     actions: {
       menuButton: ArtEditor.menuButton,
+      boxButton: ArtEditor.boxButton,
+      invisibleButton: ArtEditor.invisibleButton,
       chooseImage: ArtEditor.#onChooseImage,
     },
     position: {
-      width: "auto",
-      height: "auto",
+      width: 920,
+      height: 700,
     },
     window: {
       title: "Token Art Helper",
@@ -118,6 +121,35 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
       const filePath = await Utils.uploadToFoundry(tokenBlob, this.uploadDirectory, this.tokenFileName);
       logger.debug(`Saved token at ${filePath}`);
       ui.notifications.info(game.i18n.format("tokenarthelper.notification.savedToken", { path: filePath }));
+    }
+  }
+
+  static async invisibleButton(event) {
+    event.preventDefault();
+  }
+
+  static async boxButton(event, target) {
+    event.preventDefault();
+    const targetName = target.dataset.target;
+
+    switch (target.dataset.type) {
+      case "paste-toggle": {
+        const portraitButton = document.getElementById("paste-portrait");
+        const portraitFas = document.getElementById("paste-portrait-fas");
+        const tokenButton = document.getElementById("paste-token");
+        const tokenFas = document.getElementById("paste-token-fas");
+        game.settings.set(CONSTANTS.MODULE_ID, "paste-target", targetName);
+
+        portraitButton.classList.toggle("deselected");
+        portraitFas.classList.toggle("fa-circle");
+        portraitFas.classList.toggle("fa-circle-dot");
+        tokenButton.classList.toggle("deselected");
+        tokenFas.classList.toggle("fa-circle");
+        tokenFas.classList.toggle("fa-circle-dot");
+        break;
+      }
+      default:
+        logger.debug("Unhandled box-button click:", { event, target, type: target.dataset?.type });
     }
   }
 
