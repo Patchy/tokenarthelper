@@ -25,5 +25,14 @@
   ],
   "esmodules": ["./src/index.js"],
   "styles": ["./css/tokenarthelper.css"],
-  "packs": []
+  "packs": [],
+  "relationships": {
+    "requires": [
+      {
+        "id": "vtta-tokenizer",
+        "type": "module",
+        "reason": "Provides frame image assets and the ImageBrowser UI used by Token Art Helper."
+      }
+    ]
+  }
 }

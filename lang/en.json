@@ -113,7 +113,8 @@
       "savedToken": "Token saved to {path}",
       "failedInput": "Failed to load image from {url}.",
       "failedFallback": "Failed to load fallback image.",
-      "failedLoad": "Failed to load image from {imgSrc}. Falling back to {default}."
+      "failedLoad": "Failed to load image from {imgSrc}. Falling back to {default}.",
+      "failedLoadFrame": "Failed to load frame: \"{frame}\""
     },
 
     "dialog": {

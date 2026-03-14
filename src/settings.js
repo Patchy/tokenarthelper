@@ -76,6 +76,13 @@ export function registerSettings() {
     default: "token",
   });
 
+  game.settings.register(CONSTANTS.MODULE_ID, "custom-frames", {
+    scope: "client",
+    config: false,
+    type: Array,
+    default: [],
+  });
+
   game.settings.register(CONSTANTS.MODULE_ID, "log-level", {
     name: `${CONSTANTS.MODULE_ID}.settings.log-level.name`,
     hint: `${CONSTANTS.MODULE_ID}.settings.log-level.hint`,

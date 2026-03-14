@@ -2,6 +2,7 @@ import Utils from "../libs/Utils.js";
 import logger from "../libs/logger.js";
 import View from "./View.js";
 import DirectoryPicker from "../libs/DirectoryPicker.js";
+import ImageBrowser from "../libs/ImageBrowser.js";
 import CONSTANTS from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -24,6 +25,12 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
       : `token.${this.imageFormat}`;
     this.activeLayerSelectorElement = null;
     this.lastControlButtonClicked = null;
+    // frames
+    this.frames = [];
+    this.omfgFrames = [];
+    this.theGreatNachoFrames = [];
+    this.jColsonFrames = [];
+    this.customFrames = game.settings.get(CONSTANTS.MODULE_ID, "custom-frames");
   }
 
   static PARTS = {
@@ -46,6 +53,7 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
       boxButton: ArtEditor.boxButton,
       invisibleButton: ArtEditor.invisibleButton,
       chooseImage: ArtEditor.#onChooseImage,
+      filePickerThumbs: ArtEditor.filePickerThumbs,
     },
     position: {
       width: 920,
@@ -225,6 +233,158 @@ export default class ArtEditor extends HandlebarsApplicationMixin(ApplicationV2)
         break;
       }
       // no default
+    }
+  }
+
+  static generateImageData(file, prefix = "", selected = false) {
+    const labelSplit = file.split("/").pop().trim();
+    const regex = new RegExp(`^${prefix}-`);
+    const label = labelSplit.replace(regex, "").replace(/[-_]/g, " ");
+    return {
+      key: file,
+      label: Utils.titleString(label).split(".")[0],
+      selected,
+    };
+  }
+
+  async getDirectoryImageData(activeSource, options, path) {
+    const fileList = await DirectoryPicker.browse(activeSource, path, options);
+    const folderImages = fileList.files
+      .filter((file) => Utils.endsWithAny(["png", "jpg", "jpeg", "gif", "webp", "webm", "bmp"], file))
+      .map((file) => ArtEditor.generateImageData(file, "frame-"));
+
+    let dirImages = [];
+    for (const dir of fileList.dirs) {
+      const subDirImages = await this.getDirectoryImageData(activeSource, options, dir);
+      dirImages.push(...subDirImages);
+    }
+    return folderImages.concat(dirImages);
+  }
+
+  getDefaultFrames() {
+    const tokenizerActive = game.modules.get("vtta-tokenizer")?.active;
+    if (!tokenizerActive) return [];
+
+    const pcFrame = game.settings.get("vtta-tokenizer", "default-frame-pc").replace(/^\/|\/$/g, "");
+    const npcFrame = game.settings.get("vtta-tokenizer", "default-frame-npc").replace(/^\/|\/$/g, "");
+    const tintFrame = game.settings.get("vtta-tokenizer", "default-frame-tint").replace(/^\/|\/$/g, "");
+    const shadowdarkFrame = "modules/vtta-tokenizer/img/shadowdark-frame.png";
+
+    const frames = [];
+    const seen = new Set();
+    for (const { key, label } of [
+      { key: tintFrame, label: "Marble Frame (Tint)" },
+      { key: pcFrame, label: "Default PC Frame" },
+      { key: npcFrame, label: "Default NPC Frame" },
+      { key: shadowdarkFrame, label: "Shadowdark Frame" },
+    ]) {
+      if (key && !seen.has(key)) {
+        seen.add(key);
+        frames.push({ key, label, selected: false });
+      }
+    }
+    return frames;
+  }
+
+  getOMFGFrames() {
+    const tokenizerActive = game.modules.get("vtta-tokenizer")?.active;
+    if (!tokenizerActive) return [];
+    if (game.settings.get("vtta-tokenizer", "disable-omfg-frames")) return [];
+    if (this.omfgFrames.length > 0) return this.omfgFrames;
+
+    ["normal", "desaturated"].forEach((version) => {
+      ["v2", "v3", "v4", "v7", "v12"].forEach((v) => {
+        for (let i = 1; i <= 8; i++) {
+          const fileName = `modules/vtta-tokenizer/img/omfg/${version}/${v}/OMFG_Tokenizer_${v}_0${i}.png`;
+          const label = `OMFG Frame ${v} 0${i}`;
+          const obj = { key: fileName, label, selected: false };
+          if (!this.frames.some((frame) => frame.key === fileName)) {
+            this.omfgFrames.push(obj);
+          }
+        }
+      });
+    });
+    return this.omfgFrames;
+  }
+
+  getTheGreatNachoFrames() {
+    const tokenizerActive = game.modules.get("vtta-tokenizer")?.active;
+    if (!tokenizerActive) return [];
+    if (game.settings.get("vtta-tokenizer", "disable-thegreatnacho-frames")) return [];
+    if (this.theGreatNachoFrames.length > 0) return this.theGreatNachoFrames;
+
+    for (let i = 1; i <= 20; i++) {
+      const fileName = `modules/vtta-tokenizer/img/thegreatnacho/theGreatNacho-${i}.webp`;
+      const label = `TheGreatNacho Frame ${i}`;
+      const obj = { key: fileName, label, selected: false };
+      if (!this.frames.some((frame) => frame.key === fileName)) {
+        this.theGreatNachoFrames.push(obj);
+      }
+    }
+    return this.theGreatNachoFrames;
+  }
+
+  async getJColsonFrames() {
+    if (!game.modules.get("token-frames")?.active) return [];
+    const tokenizerActive = game.modules.get("vtta-tokenizer")?.active;
+    if (!tokenizerActive || game.settings.get("vtta-tokenizer", "disable-jcolson-frames")) return [];
+    if (this.jColsonFrames.length > 0) return this.jColsonFrames;
+
+    const directoryPath = "[data] modules/token-frames/token_frames";
+    const dir = DirectoryPicker.parse(directoryPath);
+    this.jColsonFrames = await this.getDirectoryImageData(dir.activeSource, { bucket: dir.bucket }, dir.current);
+    return this.jColsonFrames;
+  }
+
+  async getFrames() {
+    const tokenizerActive = game.modules.get("vtta-tokenizer")?.active;
+    const defaultFrames = this.getDefaultFrames();
+
+    let folderFrames = [];
+    if (tokenizerActive) {
+      const directoryPath = game.settings.get("vtta-tokenizer", "frame-directory");
+      if (directoryPath && directoryPath.trim() !== "" && directoryPath.trim() !== "[data]") {
+        const dir = DirectoryPicker.parse(directoryPath);
+        folderFrames = await this.getDirectoryImageData(dir.activeSource, { bucket: dir.bucket }, dir.current);
+      }
+    }
+
+    this.getOMFGFrames();
+    this.getTheGreatNachoFrames();
+    await this.getJColsonFrames();
+
+    this.frames = defaultFrames.concat(folderFrames, this.customFrames, this.omfgFrames, this.theGreatNachoFrames, this.jColsonFrames);
+    return this.frames;
+  }
+
+  async handleFrameSelection(framePath) {
+    const frameInList = this.frames.some((frame) => frame.key === framePath);
+    if (!frameInList) {
+      const frame = ArtEditor.generateImageData(framePath, "frame-");
+      this.frames.push(frame);
+      this.customFrames.push(frame);
+      game.settings.set(CONSTANTS.MODULE_ID, "custom-frames", this.customFrames);
+    }
+    await this._setTokenFrame(framePath);
+  }
+
+  async _setTokenFrame(framePath) {
+    const options = DirectoryPicker.parse(framePath);
+    try {
+      const img = await Utils.download(options.current);
+      this.Token.addImageLayer(img, { masked: true, onTop: true, type: "frame" });
+    } catch (error) {
+      logger.error("Error loading frame", error);
+      ui.notifications.error(game.i18n.format("tokenarthelper.notification.failedLoadFrame", { frame: options.current }));
+    }
+  }
+
+  static async filePickerThumbs(event, target) {
+    event.preventDefault();
+    if (target.dataset.type === "frame") {
+      await this.getFrames();
+      const picker = new ImageBrowser(this.frames, { type: "image", callback: this.handleFrameSelection.bind(this) });
+      picker.render({ force: true });
     }
   }
 
