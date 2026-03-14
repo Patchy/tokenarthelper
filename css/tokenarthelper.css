@@ -644,3 +644,58 @@ div.magic-lasso-wrapper {
   position: relative;
 }
 
+/* ── Window chrome: override Foundry's dark default with a light theme ── */
+.application.tokenarthelper {
+  background: #f0ece0;
+  color: #1a1a1a;
+}
+
+.application.tokenarthelper .window-header {
+  background: #c8b89a;
+  color: #1a1a1a;
+  border-bottom: 2px solid #8d6a3a;
+}
+
+.application.tokenarthelper .window-header a,
+.application.tokenarthelper .window-header button {
+  color: #1a1a1a;
+}
+
+.application.tokenarthelper .window-content {
+  background: #f0ece0;
+  color: #1a1a1a;
+  overflow-x: hidden;
+  scrollbar-color: #8d6a3a #e8e0d0;
+}
+
+/* ── Prevent horizontal scrolling everywhere in the editor ── */
+#arteditor {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#arteditor > div {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#arteditor > div > div {
+  overflow-x: hidden;
+  min-width: 0;
+}
+
+/* ── Normalize canvas display size — both portrait and token show the same CSS size ── */
+#arteditor div.view > div > canvas {
+  width: 450px !important;
+  height: 450px !important;
+  max-width: 100%;
+}
+
+/* Both portrait and token column take equal width */
+#arteditor .portrait,
+#arteditor .token {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
